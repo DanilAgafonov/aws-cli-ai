@@ -9,15 +9,20 @@ export const config = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  const { prompt: userPrompt } = (await req.json()) as {
+  const { prompt: rawUserPrompt } = (await req.json()) as {
     prompt?: string;
   };
 
-  if (!userPrompt) {
+  if (!rawUserPrompt) {
     return new Response("No prompt in the request", { status: 400 });
   }
 
-  const systemPrompt = `You are a helpful assistant. Your goal is to provide AWS CLI command based on user prompt. Your output should provide only CLI command and that's it.`;
+  const systemPrompt = `You are a helpful assistant. Your goal is to provide AWS CLI command based on user prompt. Your output should provide only CLI command and that's it. Never output anything except CLI command. Skip any explanations or additional information.`;
+  const userPrompt = `
+  ${rawUserPrompt}
+  
+  AWS CLI command:
+  `;
 
   const payload: OpenAIStreamPayload = {
     model: "gpt-3.5-turbo",
