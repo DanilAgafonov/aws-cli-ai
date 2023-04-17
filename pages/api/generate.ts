@@ -17,7 +17,7 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response("No prompt in the request", { status: 400 });
   }
 
-  const systemPrompt = `You are a helpful assistant. Your goal is to provide AWS CLI command based on user prompt. Your output should provide only CLI command and that's it. Never output anything except CLI command. Skip any explanations or additional information.`;
+  const systemPrompt = `You are a helpful assistant. Your goal is to provide AWS CLI command based on user prompt. Your output should provide only CLI command and that's it. Never output anything except CLI command. Skip any explanations or additional information. Parametrize everything you can. Use placeholders for any values that you don't know.`;
   const userPrompt = `
   ${rawUserPrompt}
   
