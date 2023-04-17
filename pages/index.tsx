@@ -129,7 +129,7 @@ const Home: NextPage = () => {
                       });
                     }}
                 >
-                  <p>{output}</p>
+                  <pre className="whitespace-pre-wrap">{output}</pre>
                 </div>
               </div>
             </>
