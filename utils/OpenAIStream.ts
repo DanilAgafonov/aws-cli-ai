@@ -4,19 +4,10 @@ import {
   ReconnectInterval,
 } from "eventsource-parser";
 
-export type ChatGPTAgent = "user" | "system";
-
-export interface ChatGPTMessage {
-  role: ChatGPTAgent;
-  content: string;
-}
-
 export interface OpenAIStreamPayload {
   model: string;
-  messages: ChatGPTMessage[];
+  prompt: string;
   temperature: number;
-  frequency_penalty: number;
-  presence_penalty: number;
   max_tokens: number;
   stream: boolean;
   n: number;
@@ -26,9 +17,9 @@ export async function OpenAIStream(payload: OpenAIStreamPayload) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
-  let counter = 0;
+  let textStarted = false;
 
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+  const res = await fetch("https://api.openai.com/v1/completions", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.OPENAI_API_KEY ?? ""}`,
@@ -50,14 +41,17 @@ export async function OpenAIStream(payload: OpenAIStreamPayload) {
           }
           try {
             const json = JSON.parse(data);
-            const text = json.choices[0].delta?.content || "";
-            if (counter < 2 && (text.match(/\n/) || []).length) {
-              // this is a prefix character (i.e., "\n\n"), do nothing
-              return;
+            let text = json.choices[0].text || "";
+            if (!textStarted) {
+              const prevText = text;
+              text = text.trimStart();
+
+              if (prevText === text) {
+                textStarted = true;
+              }
             }
             const queue = encoder.encode(text);
             controller.enqueue(queue);
-            counter++;
           } catch (e) {
             // maybe parse error
             controller.error(e);
