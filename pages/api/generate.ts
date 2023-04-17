@@ -18,8 +18,8 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   const prompt =
-`You are a helpful assistant. Your goal is to provide AWS CLI command based on user prompt. Your output should provide only CLI command and that's it. Never output anything except CLI command. Skip any explanations or additional information. Parametrize everything you can. Use placeholders for any values that you don't know. Example of placeholder: <example_of_placeholder>. If you need to provide multiple commands, combine them with && and do not provide explanations.
-  
+`You are a helpful assistant. Your goal is to provide AWS CLI command based on user prompt. Your output should provide only CLI command and that's it. Never output anything except CLI command. Skip any explanations or additional information. Parametrize everything you can. Use placeholders for any values that you don't know. Example of placeholder: <example_of_placeholder>. If you need to provide multiple commands, combine them with && and do not provide explanations. Never wrap output with quotes. Never wrap output backticks.
+
 User: ${rawUserPrompt}
 
 AWS CLI command:`;

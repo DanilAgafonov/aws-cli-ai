@@ -82,7 +82,7 @@ const Home: NextPage = () => {
             rows={4}
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={
-              "e.g. I want to create a new EC2 instance with 2GB RAM and 20GB storage"
+              "e.g. Create bucket and upload file"
             }
           />
 
