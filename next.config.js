@@ -5,12 +5,7 @@ module.exports = {
     return [
       {
         source: "/github",
-        destination: "https://github.com/Nutlope/twitterbio",
-        permanent: false,
-      },
-      {
-        source: "/deploy",
-        destination: "https://vercel.com/templates/next.js/twitter-bio",
+        destination: "https://github.com/DanilAgafonov/aws-cli-ai",
         permanent: false,
       },
     ];
